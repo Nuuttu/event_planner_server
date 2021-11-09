@@ -49,7 +49,7 @@ public class Event {
 	 @JsonIgnoreProperties({"event", "owner"})
 	 private List<Comment> comments;
 	 
-	 public Event() {}
+	public Event() {}
 	 
 	public Event(String title, String description, String datetime, User owner) {
 		super();
@@ -104,6 +104,14 @@ public class Event {
 	public void setMembers(List<User> members) {
 		this.members = members;
 	}
+	public List<Comment> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
+
 	/*
 	public void addMember(User newMember) {
 		List<User> newList = new ArrayList<>(this.members);

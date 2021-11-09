@@ -72,7 +72,6 @@ public class RController {
 	    return ResponseEntity.ok(HttpStatus.OK);
 	}
 	
-	 
 	// EVENTS  
 	@RequestMapping(value = "/events", method = RequestMethod.GET)	  
 	  public @ResponseBody List<Event> eventListRest() {
@@ -104,6 +103,15 @@ public class RController {
 		erepo.save(eevent);
 		return new ResponseEntity<Event>(eevent, HttpStatus.OK);
 	}
+	// EVENT - DELETE
+	@RequestMapping(value = "/events/{id}/delete", method = RequestMethod.DELETE)
+	public ResponseEntity<HttpStatus> deleteEvent(@PathVariable("id") Long eid){
+		Event devent = erepo.findById(eid).orElse(null);
+		List<Comment> eventComments = crepo.findByEvent(devent);
+		crepo.deleteAll(eventComments);
+		erepo.delete(devent);
+		return ResponseEntity.ok(HttpStatus.OK);
+	}
 
 	// COMMENTS
 	@RequestMapping(value = "/comments", method = RequestMethod.GET)	  
@@ -115,17 +123,12 @@ public class RController {
     public @ResponseBody Optional<Comment> findCommentRest(@PathVariable("id") Long cId) {	
 		return crepo.findById(cId);
  	}
-	
-	
-	@RequestMapping(value="/asd", method = RequestMethod.DELETE)
-	public void del(@PathVariable(required = false) Long id) {
-		crepo.deleteAll();
+	// comment - DELETE
+	@RequestMapping(value = "/comments/{id}/delete", method = RequestMethod.DELETE)
+	public ResponseEntity<HttpStatus> deleteComment(@PathVariable("id") Long cid){
+		Comment dcomment = crepo.findById(cid).orElse(null);
+		crepo.delete(dcomment);
+		return ResponseEntity.ok(HttpStatus.OK);
 	}
 
-	@RequestMapping(value="/g", method=RequestMethod.POST)
-	public Comment greeting(@RequestParam(required = false, defaultValue = "World") String name) {
-		System.out.println("==== get greeting ====");
-		return new Comment(name);
-	}
-	
 }

@@ -43,7 +43,8 @@ public class EventplannerApplication {
 	public CommandLineRunner EventDemo(EventRepository erepo, UserRepository urepo, CommentRepository crepo) {
 		return (args) -> {
 			// ADD TEST DATA WITH CLR
-			
+			if (urepo.findByUsername("user")  == null) {
+				
 			User user = new User("user", "$2a$06$3jYRJrg0ghaaypjZ/.g4SethoeA51ph3UD4kZi9oPkeMTpjKU5uo6", "USER");
 			urepo.save(user);
 			User admin = new User("admin", "$2a$10$0MMwY.IQqpsVc1jC8u7IJ.2rT8b0Cd3b3sfIBGV2zfgnPGtT4r0.C", "ADMIN");
@@ -64,7 +65,7 @@ public class EventplannerApplication {
 			erepo.save(event2);
 			
 			crepo.save(new Comment("This is a comment", formatter.format(date), user, event1));
-			
+			}
 			log.info("log indo");
 		};
 	}
