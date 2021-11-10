@@ -1,7 +1,6 @@
 package com.example.eventplanner;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertThat;
 
 import java.util.List;
 
@@ -26,17 +25,33 @@ public class UserRepoTest {
 
 	@Autowired
 	private UserRepository urepo;
+	@Autowired
+	private CommentRepository crepo;
+	@Autowired
+	private EventRepository erepo;
 	
     @Test
     public void testMe() {
-        System.out.println("Hello World!");
+        System.out.println("Hello Test!");
     }
     
     @Test
     public void addUser() {
     	urepo.save(new User("uuser", "passwd", "USER"));
     	User u = urepo.findByUsername("uuser");
-    	System.out.println("uuu");
     	assertThat(u.getUsername()).isEqualTo("uuser");
+    }
+    
+    @Test
+    public void saveUser() {
+    	User uh = urepo.save(new User("uus", "pass", "USER"));
+    	assertThat(uh.getId()).isNotNull();	
+    }
+    
+    @Test
+    public void addEventForUser() {
+    	User ah = urepo.save(new User("aas", "pass", "USER"));
+    	Event eh = erepo.save(new Event("Event for uh", "description", "2021-11-11T20:20", ah));
+    	assertThat(eh.getOwner().getUsername()).isEqualTo(ah.getUsername());
     }
 }
